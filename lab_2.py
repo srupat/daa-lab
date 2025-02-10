@@ -75,6 +75,29 @@ def mergesort(l):
     right = mergesort(l[m:])
     sorted = merge(left, right)
     return sorted
+
+def k_way_merge_sort(L, k):
+    if len(L) <= 1:
+        return L
+
+    sublists = [L[i::k] for i in range(k)]
+
+    sorted_sublists = [mergesort(sublist) for sublist in sublists]
+
+    while len(sorted_sublists) > 1:
+        merged_sublists = []
+        for i in range(0, len(sorted_sublists), 2):
+            if i + 1 < len(sorted_sublists):
+                merged_sublists.append(merge(sorted_sublists[i], sorted_sublists[i + 1]))
+            else:
+                merged_sublists.append(sorted_sublists[i])
+        sorted_sublists = merged_sublists
+
+    return sorted_sublists[0] if sorted_sublists else []
+
+l = [7, 5, 3, 10, 8, 2, 9]
+k = 3  
+print(k_way_merge_sort(l, k))
     
 l = [7, 5, 3, 10, 8, 2, 9]
 quicksort_bst(l)
